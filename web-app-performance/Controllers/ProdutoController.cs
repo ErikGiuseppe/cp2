@@ -28,7 +28,7 @@ namespace web_app_performance.Controllers
             string connectionString = "Server=localhost;Database=sys;User=root;Password=123;";
             using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
-            string query = "select id, nome, preco, quantidade_estoque e data_criacao from produtos;";
+            string query = "select id, nome, preco, quantidade_estoque, data_criacao from produtos;";
             var produtos = await connection.QueryAsync<Produto>(query);
             string produtosJson= JsonConvert.SerializeObject(produtos);
             await db.StringSetAsync(key,produtosJson);
@@ -43,7 +43,7 @@ namespace web_app_performance.Controllers
             string connectionString = "Server=localhost;Database=sys;User=root;Password=123;";
             using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
-            string sql = "insert into produtos(nome,email) values(@nome,@email);";
+            string sql = "insert into produtos(nome, preco, quantidade_estoque, data_criacao) values(@Nome, @Preco, @QuantidadeEstoque, @DataCriacao);";
             await connection.ExecuteAsync(sql,produto);
 
             string key = "getproduto";
@@ -64,7 +64,7 @@ namespace web_app_performance.Controllers
             string connectionString = "Server=localhost;Database=sys;User=root;Password=123;";
             using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
-            string sql = "Update produtos set Nome = @nome, Email = @email where Id=@id";
+            string sql = "Update produtos set Nome = @nome, preco = @preco, quantidade_estoque=@QuantidadeEstoque,data_criacao = @DataCriacao where Id=@id";
             await connection.ExecuteAsync(sql, produto);
 
             string key = "getproduto";
